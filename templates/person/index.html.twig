@@ -7,31 +7,33 @@
         {{ stimulus_controller('reload-content', {
             url: path('app_person_index', { ajax: 1 })
         }) }}
+        {{ stimulus_controller('modal-form') }}
         data-action="modal-form:success->reload-content#refreshContent"
     >
-
-        <div class="row justify-content-between">
-            <div class="col">
-                <h1>Personen</h1>
-            </div>
-
-            <div class="col" {{ stimulus_controller('modal-form') }}>
-                <div style="text-align:right;">
-                    <button
-                            class="btn btn-success"
-                            data-uri="{{ path('app_person_new') }}"
-                            data-title="Person hinzufügen"
-                            data-action="modal-form#openModal"
-                    ><i class="bi bi-person-add"></i> Person hinzufügen</button>
-                    <a class="btn btn-outline-success" href="{{ path('app_person_new') }}"><i class="bi bi-person-add"></i> Ohne Modal</a>
+        <div {{ stimulus_controller('modal-form') }}>
+            <div class="row justify-content-between">
+                <div class="col">
+                    <h1>Personen</h1>
                 </div>
-                {{ include('_modal.html.twig') }}
+
+                <div class="col">
+                    <div style="text-align:right;">
+                        <button
+                                class="btn btn-success"
+                                data-uri="{{ path('app_person_new') }}"
+                                data-title="Person hinzufügen"
+                                data-action="modal-form#openModal"
+                        ><i class="bi bi-person-add"></i> Person hinzufügen</button>
+                        <a class="btn btn-outline-success" href="{{ path('app_person_new') }}"><i class="bi bi-person-add"></i> Ohne Modal</a>
+                    </div>
+                </div>
+
             </div>
 
-        </div>
-
-        <div data-reload-content-target="ajaxReloadContent">
-            {{ include('person/_list.html.twig') }}
+            <div data-reload-content-target="ajaxReloadContent">
+                {{ include('person/_list.html.twig') }}
+            </div>
+            {{ include('_modal.html.twig') }}
         </div>
 
 </div>

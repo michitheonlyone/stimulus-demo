@@ -46,18 +46,12 @@ final class PersonController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: '_show', methods: ['GET'])]
-    public function show(Person $person): Response
-    {
-        return $this->render('person/show.html.twig', [
-            'person' => $person,
-        ]);
-    }
-
     #[Route('/{id}/edit', name: '_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Person $person, EntityManagerInterface $entityManager): Response
     {
-        $form = $this->createForm(PersonType::class, $person);
+        $form = $this->createForm(PersonType::class, $person, [
+            'action' => $this->generateUrl('app_person_edit', ['id' => $person->getId()]),
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -66,19 +60,18 @@ final class PersonController extends AbstractController
             return $this->redirectToRoute('app_person_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('person/edit.html.twig', [
+        $template = $request->isXmlHttpRequest() ? '_form.html.twig' : 'edit.html.twig';
+        return $this->render('person/' . $template, [
             'person' => $person,
             'form' => $form,
         ]);
     }
 
-    #[Route('/{id}', name: '_delete', methods: ['POST'])]
-    public function delete(Request $request, Person $person, EntityManagerInterface $entityManager): Response
+    #[Route('/{id}/delete', name: '_delete')]
+    public function delete(Person $person, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$person->getId(), $request->getPayload()->getString('_token'))) {
-            $entityManager->remove($person);
-            $entityManager->flush();
-        }
+        $entityManager->remove($person);
+        $entityManager->flush();
 
         return $this->redirectToRoute('app_person_index', [], Response::HTTP_SEE_OTHER);
     }
