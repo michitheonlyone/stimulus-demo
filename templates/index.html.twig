@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello Symfony UX!{% endblock %}
+
+{% block body %}
+
+<div class="">
+    <h1>Symfony UX</h1>
+    <ul>
+        <li><a href="{{ path('app_person_index') }}">Persons CRUD - <b>Stimulus Controller</b></a></li>
+        <li><a href="#">Tasks CRUD - <b>Turbo (Hotwire)</b></a></li>
+    </ul>
+</div>
+{% endblock %}
