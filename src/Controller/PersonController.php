@@ -15,10 +15,11 @@ use Symfony\Component\Routing\Attribute\Route;
 final class PersonController extends AbstractController
 {
     #[Route(name: '_index', methods: ['GET'])]
-    public function index(PersonRepository $personRepository): Response
+    public function index(PersonRepository $personRepository, Request $request): Response
     {
-        return $this->render('person/index.html.twig', [
-            'people' => $personRepository->findAll(),
+        $template = $request->query->get('ajax') ? '_list.html.twig' : 'index.html.twig';
+        return $this->render('person/' . $template, [
+            'persons' => $personRepository->findAll(),
         ]);
     }
 
@@ -26,7 +27,9 @@ final class PersonController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $person = new Person();
-        $form = $this->createForm(PersonType::class, $person);
+        $form = $this->createForm(PersonType::class, $person, [
+            'action' => $this->generateUrl('app_person_new'),
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -36,7 +39,8 @@ final class PersonController extends AbstractController
             return $this->redirectToRoute('app_person_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('person/new.html.twig', [
+        $template = $request->isXmlHttpRequest() ? '_form.html.twig' : 'new.html.twig';
+        return $this->render('person/' . $template, [
             'person' => $person,
             'form' => $form,
         ]);
