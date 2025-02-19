@@ -11,4 +11,13 @@
         <li><a href="{{ path('app_task_index') }}">Tasks CRUD - <b>Turbo (Hotwire)</b></a></li>
     </ul>
 </div>
+    <hr />
+    <div class="row">
+        <div class="col">
+            <twig:TaskOverviewComponent />
+        </div>
+        <div class="col">
+            <twig:PersonsOverviewComponent />
+        </div>
+    </div>
 {% endblock %}
