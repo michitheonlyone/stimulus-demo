@@ -7,7 +7,6 @@
         {{ stimulus_controller('reload-content', {
             url: path('app_person_index', { ajax: 1 })
         }) }}
-        {{ stimulus_controller('modal-form') }}
         data-action="modal-form:success->reload-content#refreshContent"
     >
         <div {{ stimulus_controller('modal-form') }}>

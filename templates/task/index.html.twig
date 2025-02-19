@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Task index{% endblock %}
+
+{% block body %}
+    <div {{ stimulus_controller('turbo-modal-form') }}>
+        <div class="row justify-content-between">
+            <div class="col">
+                <h1>Task index</h1>
+            </div>
+            <div class="col">
+                <div style="text-align:right;">
+                    <button
+                            class="btn btn-success"
+                            data-action="turbo-modal-form#openModal"
+                    ><i class="bi bi-list-check"></i> Neuer Task</button>
+                    {#                <a class="btn btn-outline-success" href="{{ path('app_task_new') }}"><i class="bi bi-list-check"></i> Ohne Modal</a>#}
+                </div>
+            </div>
+            {{ include('_turbo_modal.html.twig', { modalSrc: path('app_task_new'), id: 'task-info', modalTitle: 'Neuer Task' }) }}
+        </div>
+        {{ include('task/_list.html.twig') }}
+    </div>
+{% endblock %}

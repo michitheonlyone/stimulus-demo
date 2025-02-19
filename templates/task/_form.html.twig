@@ -1,0 +1,7 @@
+
+{{ form_start(form) }}
+    {{ form_widget(form, {
+        attr: { 'data-turbo-frame': formTarget|default('_top') }
+    }) }}
+    <button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}
