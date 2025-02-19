@@ -1,0 +1,7 @@
+<div{{ attributes }}>
+    <ul>
+        {% for person in this.persons %}
+            <li>{{ person.firstname }} {{ person.lastname }}</li>
+        {% endfor %}
+    </ul>
+</div>
